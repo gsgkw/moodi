@@ -1,5 +1,6 @@
 import UIKit
 import RealmSwift
+import Parse
 
 class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var backButton: UIBarButtonItem!
@@ -26,7 +27,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func loadData(){
         let realm = try! Realm()
-        moods = realm.objects(Mood.self)
+        moods = realm.objects(Mood.self).filter("userid = \((PFUser.current()?.objectId!)!)")
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

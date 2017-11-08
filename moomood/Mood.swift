@@ -12,6 +12,7 @@ import RealmSwift
 
 class Mood: Object{
     
+    @objc dynamic var userid = ""
     @objc dynamic var rating = 0
     @objc dynamic var date = ""
     @objc dynamic var cause = ""

@@ -1,5 +1,6 @@
 import UIKit
 import RealmSwift
+import Parse
 
 class MoodInputViewController: UIViewController, UITextFieldDelegate {
     
@@ -85,18 +86,44 @@ class MoodInputViewController: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "goToChat", sender: nil)
     }
     
+    
+    
+
+    
+    
+    
     func addMood(_ date: String, rating: Int, cause: String, moodDescription: String, others: String) {
-        let mood = Mood()
-        mood.date = date
-        mood.rating = rating
-        mood.cause = cause
-        mood.moodDescription = moodDescription
-        mood.others = others
-        let realm = try! Realm()
-        try! realm.write {
-            realm.add(mood)
+        let mood = PFObject(className: "Mood")
+        mood["userid"] = (PFUser.current()?.objectId!)!
+        mood["date"] = date
+        mood["rating"] = rating
+        mood["cause"] = cause
+        mood["moodDescription"] = moodDescription
+        mood["others"] = others
+        mood.saveInBackground {
+        (success: Bool, error: Error?) in
+        if (success) {
+            // The object has been saved.
+        } else {
+            // There was a problem, check error.description
         }
     }
+        
+        
+        
+//        let mood = Mood()
+//        mood.userid = (PFUser.current()?.objectId!)!
+//        mood.date = date
+//        mood.rating = rating
+//        mood.cause = cause
+//        mood.moodDescription = moodDescription
+//        mood.others = others
+//        let realm = try! Realm()
+//        try! realm.write {
+//            realm.add(mood)
+        }
+    }
+
 
     @IBOutlet weak var workButton: UIButton!
     @IBOutlet weak var familyButton: UIButton!
